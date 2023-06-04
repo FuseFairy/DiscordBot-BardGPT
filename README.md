@@ -1,6 +1,9 @@
 # DiscordBot-BardGPT
 > ## Using Google Bard Chat AI on discord bot.
-   
+
+## Update
+> ### 2023/6/5 : Use SQLite storage of individual cookies so it doesn't reset when the bot restarts, it can also be exported for later use.
+
 ## Features
 
 <details>
@@ -59,9 +62,14 @@
    
    ![getLog](https://i.imgur.com/LHX4yWV.png)
  
- * `!upload [.txt_file]`: Because Cookies will expire, so this command can set new Cookies directly. You just need to copy bing cookies and past,                           the Cookies will auto convert to .txt file.
+ * `!getdb`: Export Bard_id.db file
+   
+    ![getdb](https://i.imgur.com/fgW7rPO.png)
+   
+ * `!upload [__Secure-1PSID]`: Set default __Secure-1PSID.
  
-   ![upload](https://i.imgur.com/UN1Ac7N.png)
+   ![upload](https://i.imgur.com/ef2oPTh.png)
+   
 </details>
 
 ## Install
@@ -77,10 +85,9 @@ pip install -r requirements.txt
    ```
    
 2. Get Google Bard authentication.
-   * Install the cookie editor extension for Chrome or Firefox.
    * Go to [https://bard.google.com/](https://bard.google.com/)
-   * Click "Export" on the bottom right.
-   * Paste your cookies into a file `cookies.json`
+   * F12 for console
+   * Session: Go to Application → Cookies → `__Secure-1PSID`. Copy the value of that cookie.
 
 4. Start run your bot, hosted locally or on a server.
 

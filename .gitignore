@@ -2,3 +2,4 @@ __pycache__/
 .env
 discord_bot.log
 test.py
+Bard_id.db
