@@ -1,5 +1,4 @@
 import discord
-import math
 import asyncio
 from Bard import Chatbot
 from src import log
@@ -23,6 +22,7 @@ async def send_message(chatbot: Chatbot, interaction: discord.Interaction, user_
     reply = ''
     text = ''
     images_embed = []
+    await interaction.response.defer(ephemeral=False, thinking=True)
     try:
         reply = await chatbot_ask(chatbot, user_message)
 
@@ -62,7 +62,7 @@ async def send_message(chatbot: Chatbot, interaction: discord.Interaction, user_
             else:
                 await interaction.followup.send(response, wait=True)
     except Exception as e:
-            await interaction.followup.send(f">>> **Error: {e}**")
+            await interaction.followup.send(f">>> **Error while sending message: {e}**")
             logger.exception(f"Error while sending message: {e}")
     finally:
         using_func[interaction.user.id] = False
