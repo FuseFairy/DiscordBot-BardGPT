@@ -52,21 +52,21 @@
  
  > ### bot owner setting.
    
- * `!unload [file_name_in_cogs_folder]`: Disable command from the specified file.
- * `!load [file_name_in_cogs_folder]`: Enable the command from the specified file.
+ * `!bardunload [file_name_in_cogs_folder]`: Disable command from the specified file.
+ * `!bardload [file_name_in_cogs_folder]`: Enable the command from the specified file.
  
    ![load & unload](https://i.imgur.com/opjDBn9.png)
   
- * `!clean`: Empty discord_bot.log file.
- * `!getLog`: Get discord_bot.log file. Real-time tracking of the bot's operating status.
+ * `!bardclean`: Empty discord_bot.log file.
+ * `!bardgetLog`: Get discord_bot.log file. Real-time tracking of the bot's operating status.
    
    ![getLog](https://i.imgur.com/LHX4yWV.png)
  
- * `!getdb`: Export Bard_id.db file
+ * `!bardgetdb`: Export Bard_id.db file
    
     ![getdb](https://i.imgur.com/fgW7rPO.png)
    
- * `!upload [__Secure-1PSID]`: Set default __Secure-1PSID.
+ * `!bardupload [__Secure-1PSID]`: Set default __Secure-1PSID.
  
    ![upload](https://i.imgur.com/ef2oPTh.png)
    
