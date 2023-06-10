@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-bot = commands.Bot(command_prefix='!', intents = discord.Intents.all())
+bot = commands.Bot(command_prefix='!', intents=discord.Intents.all())
 
 # init loggger
 logger = src.log.setup_logger(__name__)
@@ -48,8 +48,8 @@ def check_verion() -> None:
 @bot.event
 async def on_ready():
     bot_status = discord.Status.online
-    bot_activity = discord.Activity(type=discord.ActivityType.playing, name = "/help")
-    await bot.change_presence(status = bot_status, activity = bot_activity)
+    bot_activity = discord.Activity(type=discord.ActivityType.playing, name="/help")
+    await bot.change_presence(status=bot_status, activity=bot_activity)
     await init_sql_chatbot()
     for Filename in os.listdir('./cogs'):
         if Filename.endswith('.py'):
@@ -63,29 +63,29 @@ async def on_ready():
         print(e)
 
 # Load command
-@commands.is_owner()   
-@bot.command()
+@commands.is_owner()
+@bot.command(name="bardload")
 async def load(ctx, extension):
     await bot.load_extension(f'cogs.{extension}')
     await ctx.author.send(f'> **Loaded {extension} done.**')
 
 # Unload command
 @commands.is_owner()
-@bot.command()
+@bot.command(name="bardunload")
 async def unload(ctx, extension):
     await bot.unload_extension(f'cogs.{extension}')
     await ctx.author.send(f'> **Un-Loaded {extension} done.**')
 
 # Empty discord_bot.log file
 @commands.is_owner()
-@bot.command()
+@bot.command(name="bardclean")
 async def clean(ctx):
     open('discord_bot.log', 'w').close()
     await ctx.author.send(f'> **Successfully emptied the file!**')
 
 # Get discord_bot.log file
 @commands.is_owner()
-@bot.command()
+@bot.command(name="bardgetLog")
 async def getLog(ctx):
     try:
         with open('discord_bot.log', 'rb') as f:
@@ -97,7 +97,7 @@ async def getLog(ctx):
 
 # Get Bard_id.db file
 @commands.is_owner()
-@bot.command()
+@bot.command(name="bardgetdb")
 async def getdb(ctx):
     try:
         with open('Bard_id.db', 'rb') as f:
@@ -109,7 +109,7 @@ async def getdb(ctx):
 
 # Upload new Bing cookies and restart the bot
 @commands.is_owner()
-@bot.command()
+@bot.command(name="bardupload")
 async def upload(ctx, *, message):
     try:
         if not isinstance(ctx.channel, discord.abc.PrivateChannel):
