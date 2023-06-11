@@ -96,3 +96,11 @@ pip install -r requirements.txt
 ## Credits
 * Bard - [https://github.com/acheong08/Bard](https://github.com/acheong08/Bard)
 * other - [https://github.com/Zero6992/chatGPT-discord-bot](https://github.com/Zero6992/chatGPT-discord-bot)
+
+## Contributors
+
+This project exists thanks to all the people who contribute.
+
+ <a href="https://github.com/FuseFairy/DiscordBot-BradGPT/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=FuseFairy/DiscordBot-BardGPT" />
+ </a>
