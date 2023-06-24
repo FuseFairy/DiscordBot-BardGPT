@@ -91,7 +91,6 @@ async def getLog(ctx):
         with open('discord_bot.log', 'rb') as f:
             file = discord.File(f)
         await ctx.author.send(file=file)
-        await ctx.author.send("> **Send successfully!**")
     except:
         await ctx.author.send("> **Send failed!**")
 
@@ -103,7 +102,6 @@ async def getdb(ctx):
         with open('Bard_id.db', 'rb') as f:
             file = discord.File(f)
         await ctx.author.send(file=file)
-        await ctx.author.send("> **Send successfully!**")
     except:
         await ctx.author.send("> **Send failed!**")
 
