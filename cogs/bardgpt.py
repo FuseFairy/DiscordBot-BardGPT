@@ -16,8 +16,7 @@ class BardGPT(Cog_Extension):
         except:
             await set_using_send(interaction.user.id, False)
             using = await get_using_send(interaction.user.id)
-        
-        else:
+        finally:
             if not using:
                 users_chatbot = await get_users_chatbot()
                 username = str(interaction.user)
