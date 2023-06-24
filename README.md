@@ -24,7 +24,7 @@
   
   >**Warning** : Only up to 10 pictures will be displayed.
 
-  ![Bard](https://i.imgur.com/cgIMRvw.png)
+  ![Bard](https://i.imgur.com/LEmdIMI.png)
   
 </details>
 
@@ -39,7 +39,7 @@
 
 * Same as use `/bard`,
 
-  ![mention1](https://i.imgur.com/0jAhbgY.png)
+  ![mention1](https://i.imgur.com/1PiYBi8.png)
 
 </details>
 
@@ -55,20 +55,20 @@
  * `!bardunload [file_name_in_cogs_folder]`: Disable command from the specified file.
  * `!bardload [file_name_in_cogs_folder]`: Enable the command from the specified file.
  
-   ![load & unload](https://i.imgur.com/opjDBn9.png)
+   ![load & unload](https://i.imgur.com/lqqcxkd.png)
   
  * `!bardclean`: Empty discord_bot.log file.
  * `!bardgetLog`: Get discord_bot.log file. Real-time tracking of the bot's operating status.
    
-   ![getLog](https://i.imgur.com/LHX4yWV.png)
+   ![bardgetLog](https://i.imgur.com/ZQok7qS.png)
  
  * `!bardgetdb`: Export Bard_id.db file
    
-    ![getdb](https://i.imgur.com/fgW7rPO.png)
+    ![getdb](https://i.imgur.com/gq9E7lV.png)
    
  * `!bardupload [__Secure-1PSID]`: Set default __Secure-1PSID.
  
-   ![upload](https://i.imgur.com/ef2oPTh.png)
+   ![upload](https://i.imgur.com/3FZmmdu.png)
    
 </details>
 
