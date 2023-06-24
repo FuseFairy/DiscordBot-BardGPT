@@ -32,6 +32,7 @@ async def send_message(chatbot: Chatbot, message: discord.message.Message, user_
 
             # Get reply text
             text = f"{reply['content']}"
+            text = re.sub(r'\[Image of[^\]]*?\].*?\n?', '', text)
 
             # Set the final message
             user_message = user_message.replace("\n", "")
