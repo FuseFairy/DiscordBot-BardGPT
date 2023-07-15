@@ -8,6 +8,7 @@ class Help(Cog_Extension):
         embed=discord.Embed(title="Help", description="[see more](https://github.com/FuseFairy/DiscordBot-BardGPT/blob/main/requirements.txt)\n\n**COMMANDS -**")
         embed.add_field(name="/bard_cookies", value="Set and delete your Google Bard Cookies.", inline=False)
         embed.add_field(name="/bard", value="Chat with Google Bard.", inline=False)
+        embed.add_field(name="/reset_bard_conversation", value="Reset chatbot conversation.", inline=False)
         await interaction.response.send_message(embed=embed)
 
 async def setup(bot):
