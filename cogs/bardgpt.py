@@ -2,7 +2,7 @@ import discord
 from discord import app_commands
 from core.classes import Cog_Extension
 from src import log
-from src.setChatbot import set_personal_chatbot, del_personal_chatbot, get_users_chatbot, get_default_id
+from src.setChatbot import set_personal_chatbot, del_personal_chatbot, get_users_chatbot, get_default_session_id, reset_user_chatbot
 from src.response import get_using_send, set_using_send
 
 logger = log.setup_logger(__name__)
@@ -24,7 +24,7 @@ class BardGPT(Cog_Extension):
                 channel = str(interaction.channel)
                 user_id = interaction.user.id
                 if user_id not in users_chatbot:
-                    if await get_default_id() is None:
+                    if await get_default_session_id() is None:
                         await interaction.response.defer(ephemeral=True, thinking=True)
                         await interaction.followup.send("> **Bot owner should use !upload command to set \_\_Secure-1PSID first, or you can use /bard_cookies command to set your \_\_Secure-1PSID.**")
                     else:
@@ -60,6 +60,13 @@ class BardGPT(Cog_Extension):
                 await del_personal_chatbot(interaction, user_id=user_id)
             else:
                 await interaction.followup.send("> **Error while delete chatbot: You don't have any chatbot**")
+    
+    @app_commands.command(name="reset_bard_conversation", description="Reset Bard chatbot conversation")
+    async def bard_reset(self, interaction: discord.Interaction):
+        await interaction.response.defer(ephemeral=True, thinking=True)
+        user_id = interaction.user.id
+        await reset_user_chatbot(user_id)
+        await interaction.followup.send("> **Reset finish!**")
 
 async def setup(bot):
     await bot.add_cog(BardGPT(bot))
