@@ -2,9 +2,8 @@ import discord
 import os
 import src.log
 import sqlite3
-import sys
 import pkg_resources
-from src.setChatbot import update_id, init_sql_chatbot
+from src.setChatbot import update_session_id, init_sql_chatbot
 from src.setChatbot import set_chatbot
 from discord.ext import commands
 from dotenv import load_dotenv
@@ -28,22 +27,14 @@ try:
 except:
     pass
 
-def check_verion() -> None:
-    # Read the requirements.txt file and add each line to a list
-    with open('requirements.txt') as f:
-        required = f.read().splitlines()
+def check_version():
+    required = [line.strip() for line in open('requirements.txt')]
 
-    # For each library listed in requirements.txt, check if the corresponding version is installed
     for package in required:
-        # Use the pkg_resources library to get information about the installed version of the library
-        package_name, package_verion = package.split('==')
-        installed = pkg_resources.get_distribution(package_name)
-        # Extract the library name and version number
-        name, version = installed.project_name, installed.version
-        # Compare the version number to see if it matches the one in requirements.txt
+        package_name, package_version = package.split('==')
+        name, version = pkg_resources.get_distribution(package_name).project_name, pkg_resources.get_distribution(package_name).version
         if package != f'{name}=={version}':
-            logger.error(f'{name} version {version} is installed but does not match the requirements')
-            sys.exit()
+            raise ValueError(f'{name} version {version} is installed but does not match the requirements')
 
 @bot.event
 async def on_ready():
@@ -112,12 +103,12 @@ async def upload(ctx, *, message):
     try:
         if not isinstance(ctx.channel, discord.abc.PrivateChannel):
             await ctx.message.delete()
-        await set_chatbot(id=message)
+        await set_chatbot(session_id=message)
         with sqlite3.connect('Bard_id.db') as conn:
             c = conn.cursor()
             c.execute("UPDATE ID_DATA SET SECURE_1PSID = ? WHERE DEFAULT_VALUE = 1", (message,))
             conn.commit()
-        await update_id(new_id=message)
+        await update_session_id(new_session_id=message)
         await ctx.author.send(f'> **Upload new \_\_Secure-1PSID successfully!**')
         logger.warning("\x1b[31m__Secure-1PSID has been setup successfully\x1b[0m")
     except Exception as e:
@@ -125,5 +116,5 @@ async def upload(ctx, *, message):
         logger.exception(f"Error while upload cookies: {e}")
 
 if __name__ == '__main__':
-    check_verion()
+    check_version()
     bot.run(os.getenv("DISCORD_BOT_TOKEN"))
