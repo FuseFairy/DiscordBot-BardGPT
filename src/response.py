@@ -1,7 +1,7 @@
 import discord
 import asyncio
 import re
-from Bard import Chatbot
+from bardapi import Bard
 from src import log
 
 logger = log.setup_logger(__name__)
@@ -13,16 +13,18 @@ async def get_using_send(user_id):
 async def set_using_send(user_id, status: bool):
     using_func[user_id] = status
 
-async def chatbot_ask(chatbot: Chatbot, message: str):
+async def chatbot_ask(chatbot: Bard, message: str):
     loop = asyncio.get_running_loop()
-    result = await loop.run_in_executor(None, chatbot.ask, message)
+    result = await loop.run_in_executor(None, chatbot.get_answer, message)
     return result
 
-async def send_message(chatbot: Chatbot, interaction: discord.Interaction, user_message: str):
+async def send_message(chatbot: Bard, interaction: discord.Interaction, user_message: str):
     using_func[interaction.user.id] = True
     reply = ''
     text = ''
     images_embed = []
+    more_images_links = []
+    more_images_embed = ''
     await interaction.response.defer(ephemeral=False, thinking=True)
     try:
         reply = await chatbot_ask(chatbot, user_message)
@@ -30,6 +32,7 @@ async def send_message(chatbot: Chatbot, interaction: discord.Interaction, user_
         # Get reply text
         text = f"{reply['content']}"
         text = re.sub(r'\[Image of[^\]]*?\].*?\n?', '', text)
+        text = re.sub(r'\[[^\]]*?\\Images of[^\]]*?\].*?\n?', '', text)
 
         # Set the final message
         user_message = user_message.replace("\n", "")
@@ -55,11 +58,17 @@ async def send_message(chatbot: Chatbot, interaction: discord.Interaction, user_
                             i += 1
                             count = 0
                     else:
-                        break
+                        more_images_links.append(image_link)
+                if len(more_images_links) > 0:
+                    link_text = "\n\n".join(more_images_links)
+                    more_images_embed = discord.Embed(title= "More Images", description=link_text)
         except:
             pass
         else:
-            if images_embed:
+            if images_embed and more_images_links:
+                await interaction.followup.send(response, embeds=images_embed, wait=True)
+                await interaction.followup.send(embed=more_images_embed, wait=True)
+            elif images_embed:
                 await interaction.followup.send(response, embeds=images_embed, wait=True)
             else:
                 await interaction.followup.send(response, wait=True)
