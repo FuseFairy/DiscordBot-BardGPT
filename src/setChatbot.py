@@ -6,7 +6,7 @@ from bardapi import Bard
 
 logger = log.setup_logger(__name__)
 users_chatbot = {}
-default_id = None
+default_session_id = None
 
 ########### mention chatbot setting ###########
 async def set_chatbot(session_id):
