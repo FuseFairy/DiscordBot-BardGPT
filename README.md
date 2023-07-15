@@ -2,6 +2,7 @@
 > ## Using Google Bard Chat AI on discord bot.
 
 ## Update
+> ### 2023/7/15 : Use another Bard api so the chatbot can work again.
 > ### 2023/6/5 : Use SQLite storage of individual cookies so it doesn't reset when the bot restarts, it can also be exported for later use.
 
 ## Features
@@ -22,9 +23,11 @@
    
 * Bard: `/bard [message]`
   
-  >**Warning** : Only up to 10 pictures will be displayed.
+  >**Warning** : Only up to 10 images will be displayed.
 
   ![Bard](https://i.imgur.com/LEmdIMI.png)
+
+* reset conversation: `/reset_bard_conversation `
   
 </details>
 
@@ -40,6 +43,7 @@
 * Same as use `/bard`,
 
   ![mention1](https://i.imgur.com/1PiYBi8.png)
+  ![reset](https://i.imgur.com/YykmbU6.png)
 
 </details>
 
@@ -94,8 +98,7 @@ pip install -r requirements.txt
    -> Recommended Free Servers: [fly.io](https://fly.io/)
 
 ## Credits
-* Bard - [https://github.com/acheong08/Bard](https://github.com/acheong08/Bard)
-* other - [https://github.com/Zero6992/chatGPT-discord-bot](https://github.com/Zero6992/chatGPT-discord-bot)
+* Bard - [https://github.com/dsdanielpark/Bard-API/tree/main](https://github.com/dsdanielpark/Bard-API/tree/main)
 
 ## Contributors
 
