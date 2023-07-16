@@ -96,7 +96,7 @@ async def getdb(ctx):
     except:
         await ctx.author.send("> **Send failed!**")
 
-# Upload new Bing cookies and restart the bot
+# Upload Bard cookies
 @commands.is_owner()
 @bot.command(name="bardupload")
 async def upload(ctx, *, message):
