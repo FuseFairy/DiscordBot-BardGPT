@@ -93,9 +93,11 @@ pip install -r requirements.txt
    * F12 for console
    * Session: Go to Application → Cookies → `__Secure-1PSID`. Copy the value of that cookie.
 
-4. Start run your bot, hosted locally or on a server.
+3. Start run your bot, hosted locally or on a server.
 
    -> Recommended Free Servers: [fly.io](https://fly.io/)
+
+4. Use `!bardupload` prefix command to set your session.
 
 ## Credits
 * Bard - [https://github.com/dsdanielpark/Bard-API/tree/main](https://github.com/dsdanielpark/Bard-API/tree/main)
