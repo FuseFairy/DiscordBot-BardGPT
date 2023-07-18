@@ -26,7 +26,7 @@ class BardGPT(Cog_Extension):
                 if user_id not in users_chatbot:
                     if await get_default_session_id() is None:
                         await interaction.response.defer(ephemeral=True, thinking=True)
-                        await interaction.followup.send("> **Bot owner should use !upload command to set \_\_Secure-1PSID first, or you can use /bard_cookies command to set your \_\_Secure-1PSID.**")
+                        await interaction.followup.send("> **Bot owner should use !bardupload command to set \_\_Secure-1PSID first, or you can use /bard_cookies command to set your \_\_Secure-1PSID.**")
                     else:
                         if await set_personal_chatbot(interaction, user_id) is not True:
                             await interaction.response.defer(ephemeral=True, thinking=True)
