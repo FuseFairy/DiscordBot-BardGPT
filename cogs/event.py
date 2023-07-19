@@ -2,6 +2,7 @@ import discord
 import re
 import os
 import asyncio
+import requests
 from bardapi import Bard
 from src.response import chatbot_ask
 from src.setChatbot import get_chatbot, get_default_session_id, reset_chatbot
@@ -13,6 +14,7 @@ from core.classes import Cog_Extension
 load_dotenv()
 
 chatbot = None
+image_extensions = ('.jpg', '.jpeg', '.png', '.webp')
 
 try:
     MENTION_CHANNEL_ID = int(os.getenv("MENTION_CHANNEL_ID"))
@@ -51,7 +53,7 @@ class DropdownView(discord.ui.View):
             dropdown.disabled = True
         await interaction.followup.edit_message(message_id=interaction.message.id, view=self)
 
-async def send_message(chatbot: Bard, message: discord.message.Message, user_message: str):
+async def send_message(chatbot: Bard, message: discord.message.Message, user_message: str, image=None):
     async with sem:
         await message.channel.typing()
         reply = ''
@@ -60,7 +62,10 @@ async def send_message(chatbot: Bard, message: discord.message.Message, user_mes
         more_images_links = []
         more_images_embed = ''
         try:
-            reply = await chatbot_ask(chatbot, user_message)   
+            if image:
+                reply = await chatbot_ask(chatbot, user_message, image)
+            else:
+                reply = await chatbot_ask(chatbot, user_message)   
 
             # Get reply text
             text = f"{reply['content']}"
@@ -78,10 +83,16 @@ async def send_message(chatbot: Bard, message: discord.message.Message, user_mes
 
             # Get the image, if available
             try:
-                if reply["images"] != "set()":
+                if ('' not in reply["images"] and len(reply["images"]) > 0) or len(reply["links"]) > 0:
                     i = 1
                     count = 0
-                    for image_link in reply["images"]:
+                    
+                    if len(reply["links"]) > 0:
+                        images = reply["links"]
+                    else:
+                        images = reply["images"]
+
+                    for image_link in images:
                         if len(images_embed) < 10:
                             images_embed.append(discord.Embed(url=f"https://bard.google.com/{i}").set_image(url=image_link))
                             count += 1
@@ -90,13 +101,14 @@ async def send_message(chatbot: Bard, message: discord.message.Message, user_mes
                                 count = 0
                         else:
                             more_images_links.append(image_link)
-                if len(more_images_links):
+                if len(more_images_links) > 0:
                     link_text = "\n\n".join(more_images_links)
-                    more_images_embed = discord.Embed(title= "More Images", description=link_text)
+                    if len(link_text) < 4096:
+                        more_images_embed = discord.Embed(title= "More Links", description=link_text)
             except:
                 pass
             else:
-                if images_embed and more_images_links:
+                if images_embed and more_images_embed:
                     await message.channel.send(text, embeds=images_embed)
                     await message.channel.send(embed=more_images_embed)
                 elif images_embed:
@@ -110,12 +122,13 @@ async def send_message(chatbot: Bard, message: discord.message.Message, user_mes
 class Event(Cog_Extension):
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
+        image_bytes = None
         if message.author == self.bot.user:
             return
         if self.bot.user in message.mentions:
             if await get_default_session_id() is None:
                 await message.channel.typing()
-                await message.channel.send(f"> **Bot owner should use !upload command to set __Secure-1PSID first.**")
+                await message.channel.send(f"> **Bot owner should use !bardupload command to set __Secure-1PSID first.**")
             else:
                 if not MENTION_CHANNEL_ID or message.channel.id == MENTION_CHANNEL_ID:
                     content = re.sub(r'<@.*?>', '', message.content).strip()
@@ -124,7 +137,15 @@ class Event(Cog_Extension):
                         username = str(message.author)
                         channel = str(message.channel)
                         logger.info(f"\x1b[31m{username}\x1b[0m : '{content}' ({channel})")
-                        task = asyncio.create_task(send_message(chatbot, message, content))
+
+                        for image in message.attachments:
+                            if image.filename.endswith(image_extensions):
+                                image_bytes = requests.get(image).content
+                                break
+                        if image_bytes:
+                            task = asyncio.create_task(send_message(chatbot, message, content, image_bytes))
+                        else:
+                            task = asyncio.create_task(send_message(chatbot, message, content))
                         await asyncio.gather(task)
                     else:
                         await message.channel.send(view=DropdownView())
