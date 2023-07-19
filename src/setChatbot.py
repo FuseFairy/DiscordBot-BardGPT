@@ -30,8 +30,11 @@ class UserChatbot:
     def __init__(self, session_id: str):
         self.chatbot = Bard(token=session_id)
 
-    async def send_message(self, interaction, message):
-        await send_message(self.chatbot, interaction, message)
+    async def send_message(self, interaction, message, image=None):
+        if image:
+            await send_message(self.chatbot, interaction, message, image)
+        else:
+            await send_message(self.chatbot, interaction, message)
 
 async def init_sql_chatbot():
     global users_chatbot
