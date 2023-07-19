@@ -1,16 +1,19 @@
 import discord
+import requests
 from discord import app_commands
 from core.classes import Cog_Extension
 from src import log
 from src.setChatbot import set_personal_chatbot, del_personal_chatbot, get_users_chatbot, get_default_session_id, reset_user_chatbot
 from src.response import get_using_send, set_using_send
+from typing import Optional
 
 logger = log.setup_logger(__name__)
+image_extensions = ['.jpg', '.jpeg', '.png', '.webp']
 
 class BardGPT(Cog_Extension):
     # Chat with Google Bard
     @app_commands.command(name="bard", description="Have a chat with Google Bard")
-    async def bard(self, interaction: discord.Interaction, *, message: str):
+    async def bard(self, interaction: discord.Interaction, image: Optional[discord.Attachment]=None, *, message: str):
         try:
             using = await get_using_send(interaction.user.id)
         except:
@@ -34,7 +37,16 @@ class BardGPT(Cog_Extension):
                         else:
                             users_chatbot = await get_users_chatbot()
                 logger.info(f"\x1b[31m{username}\x1b[0m : '{usermessage}' ({channel})")
-                await users_chatbot[user_id].send_message(interaction, usermessage)
+                if image is not None:
+                    file_extension = image.filename[image.filename.rfind('.'):].lower()
+                    if file_extension in image_extensions:
+                        image_bytes = requests.get(image).content
+                        await users_chatbot[user_id].send_message(interaction, usermessage, image_bytes)
+                    else:
+                        await interaction.response.defer(ephemeral=True, thinking=True)
+                        await interaction.followup.send("> **This file format is not supported**")
+                else:
+                    await users_chatbot[user_id].send_message(interaction, usermessage)
             else:
                 await interaction.response.defer(ephemeral=True, thinking=True)
                 await interaction.followup.send("> **Please wait for your last conversation to finish.**")
@@ -50,7 +62,7 @@ class BardGPT(Cog_Extension):
             if secure_1psid is None:
                 await interaction.followup.send("> **Error while set chatbot: Please input your \_\_Secure-1PSID**")
             else:
-                if await set_personal_chatbot(interaction, user_id=user_id, id=secure_1psid):
+                if await set_personal_chatbot(interaction, user_id=user_id, session_id=secure_1psid):
                     await interaction.followup.send("> **Upload successful!**")
                 else:
                     await interaction.followup.send(">>> **Error while set chatbot**")
