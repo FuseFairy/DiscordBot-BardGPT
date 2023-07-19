@@ -2,6 +2,7 @@
 > ## Using Google Bard Chat AI on discord bot.
 
 ## Update
+> ### 2023/7/19 : Message can contain image.
 > ### 2023/7/15 : Use another Bard api so the chatbot can work again.
 > ### 2023/6/5 : Use SQLite storage of individual cookies so it doesn't reset when the bot restarts, it can also be exported for later use.
 
@@ -21,11 +22,12 @@
   ![setting](https://i.imgur.com/Q5HS6SW.png)
   
    
-* Bard: `/bard [message]`
+* Bard: `/bard [message] [image]`
   
   >**Warning** : Only up to 10 images will be displayed.
 
-  ![Bard](https://i.imgur.com/LEmdIMI.png)
+  ![Bard1](https://i.imgur.com/LEmdIMI.png)
+  ![Bard2](https://i.imgur.com/q9hy2RP.png)
 
 * reset conversation: `/reset_bard_conversation `
   
@@ -43,6 +45,7 @@
 * Same as use `/bard`,
 
   ![mention1](https://i.imgur.com/1PiYBi8.png)
+  ![mention2](https://i.imgur.com/Tf0dCeu.png)
   ![reset](https://i.imgur.com/YykmbU6.png)
 
 </details>
