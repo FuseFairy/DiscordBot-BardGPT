@@ -17,9 +17,9 @@
    
 > ### will create a personal conversation for each user.
    
-* cookies setting(use personal Google Bard Cookies): `/bard_cookies [choice]`
+* cookies setting(use personal Google Bard Cookies): `/chatbot_setting [choice]`
   
-  ![setting](https://i.imgur.com/Q5HS6SW.png)
+  ![setting](https://i.imgur.com/MOGJN5e.png)
   
    
 * Bard: `/bard [message] [image]`
@@ -28,8 +28,6 @@
 
   ![Bard1](https://i.imgur.com/LEmdIMI.png)
   ![Bard2](https://i.imgur.com/q9hy2RP.png)
-
-* reset conversation: `/reset_bard_conversation `
   
 </details>
 
@@ -46,7 +44,6 @@
 
   ![mention1](https://i.imgur.com/1PiYBi8.png)
   ![mention2](https://i.imgur.com/Tf0dCeu.png)
-  ![reset](https://i.imgur.com/YykmbU6.png)
 
 </details>
 
@@ -73,10 +70,6 @@
    
     ![getdb](https://i.imgur.com/gq9E7lV.png)
    
- * `!bardupload [__Secure-1PSID]`: Set default __Secure-1PSID.
- 
-   ![upload](https://i.imgur.com/3FZmmdu.png)
-   
 </details>
 
 ## Install
@@ -85,22 +78,22 @@ pip install -r requirements.txt
 ```
 
 ## Usage
-1. Rename the file`.env.dev`to`.env`, then open it and edit it. If you don't want a limit channel to mention a bot, you don't need to set up a MENTION_CHANNEL_ID, just leave it blank.
+
+1. Get Google Bard authentication.
+   * Go to [https://bard.google.com/](https://bard.google.com/)
+   * F12 for console
+   * ___SECURE_1PSID: Go to Application → Cookies → `__Secure-1PSID`. Copy the value of that cookie.
+     
+2. Rename the file`.env.dev`to`.env`, then open it and edit it. If you don't want a limit channel to mention a bot, you don't need to set up a MENTION_CHANNEL_ID, just leave it blank.
    ```
    DISCORD_BOT_TOKEN=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
    MENTION_CHANNEL_ID=123456789
+   ___SECURE_1PSID=
    ```
-   
-2. Get Google Bard authentication.
-   * Go to [https://bard.google.com/](https://bard.google.com/)
-   * F12 for console
-   * Session: Go to Application → Cookies → `__Secure-1PSID`. Copy the value of that cookie.
 
 3. Start run your bot, hosted locally or on a server.
 
    -> Recommended Free Servers: [fly.io](https://fly.io/)
-
-4. Use `!bardupload` prefix command to set your session.
 
 ## Credits
 * Bard - [https://github.com/dsdanielpark/Bard-API/tree/main](https://github.com/dsdanielpark/Bard-API/tree/main)
