@@ -3,8 +3,7 @@ import os
 import src.log
 import sqlite3
 import pkg_resources
-from src.setChatbot import update_session_id, init_sql_chatbot
-from src.setChatbot import set_chatbot
+from src.personal_chatbot import init_personal_chatbots
 from discord.ext import commands
 from dotenv import load_dotenv
 
@@ -19,9 +18,9 @@ conn = sqlite3.connect('Bard_id.db')
 c = conn.cursor()
 try:
     c.execute('''CREATE TABLE ID_DATA
-                 (USER_ID   INT PRIMARY KEY    NOT NULL,
-                 SECURE_1PSID   TEXT           NOT NULL,
-                 default_value  INT);''')
+                 (USER_ID INT PRIMARY KEY NOT NULL,
+                 TOKEN  TEXT NOT NULL,
+                 USE_DEFAULT_COOKIE  INT DEFAULT 0);''')
     conn.commit()
     conn.close()
 except:
@@ -41,7 +40,7 @@ async def on_ready():
     bot_status = discord.Status.online
     bot_activity = discord.Activity(type=discord.ActivityType.playing, name="/help")
     await bot.change_presence(status=bot_status, activity=bot_activity)
-    await init_sql_chatbot()
+    await init_personal_chatbots()
     for Filename in os.listdir('./cogs'):
         if Filename.endswith('.py'):
             await bot.load_extension(f'cogs.{Filename[:-3]}')  
@@ -95,25 +94,6 @@ async def getdb(ctx):
         await ctx.author.send(file=file)
     except:
         await ctx.author.send("> **Send failed!**")
-
-# Upload Bard cookies
-@commands.is_owner()
-@bot.command(name="bardupload")
-async def upload(ctx, *, message):
-    try:
-        if not isinstance(ctx.channel, discord.abc.PrivateChannel):
-            await ctx.message.delete()
-        await set_chatbot(session_id=message)
-        with sqlite3.connect('Bard_id.db') as conn:
-            c = conn.cursor()
-            c.execute("UPDATE ID_DATA SET SECURE_1PSID = ? WHERE DEFAULT_VALUE = 1", (message,))
-            conn.commit()
-        await update_session_id(new_session_id=message)
-        await ctx.author.send(f'> **Upload new \_\_Secure-1PSID successfully!**')
-        logger.warning("\x1b[31m__Secure-1PSID has been setup successfully\x1b[0m")
-    except Exception as e:
-        await ctx.author.send(f">>> **Error: {e}**")
-        logger.exception(f"Error while upload cookies: {e}")
 
 if __name__ == '__main__':
     check_version()
