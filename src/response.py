@@ -58,7 +58,7 @@ async def send_message(chatbot: Bard, interaction, user_message: str, image=None
 
             for image_link in reply["images"]:
                 if len(images_embed) < 10:
-                    images_embed.append(discord.Embed(description="", url=f"https://bard.google.com/{i}").set_image(url=image_link))
+                    images_embed.append(discord.Embed(url=f"https://bard.google.com/{i}").set_image(url=image_link))
                     count += 1
                     if count == 4:
                         i += 1
