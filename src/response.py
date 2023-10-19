@@ -52,13 +52,13 @@ async def send_message(chatbot: Bard, interaction, user_message: str, image=None
                 await interaction.channel.send(temp)
 
         # Get the image, if available
-        if (len(reply["images"]) > 0):
+        if (len(reply["images"]) > 0 and reply["images"][0] != ""):
             i = 1
             count = 0
 
             for image_link in reply["images"]:
                 if len(images_embed) < 10:
-                    images_embed.append(discord.Embed(url=f"https://bard.google.com/{i}").set_image(url=image_link))
+                    images_embed.append(discord.Embed(description="", url=f"https://bard.google.com/{i}").set_image(url=image_link))
                     count += 1
                     if count == 4:
                         i += 1
@@ -70,14 +70,14 @@ async def send_message(chatbot: Bard, interaction, user_message: str, image=None
                 if len(link_text) < 4096:
                     more_images_embed = discord.Embed(title= "More Links", description=link_text)
 
-        if images_embed and more_images_embed:
+        if len(images_embed) > 0 and len(more_images_embed) > 0:
             if isinstance(interaction, discord.Interaction):
                 await interaction.followup.send(response, embeds=images_embed, wait=True)
                 await interaction.followup.send(embed=more_images_embed, wait=True)
             elif isinstance(interaction, discord.message.Message):
                 await interaction.channel.send(text, embeds=images_embed)
                 await interaction.channel.send(embed=more_images_embed)
-        elif images_embed:
+        elif len(images_embed) > 0:
             if isinstance(interaction, discord.Interaction):
                 await interaction.followup.send(response, embeds=images_embed, wait=True)
             elif isinstance(interaction, discord.message.Message):
