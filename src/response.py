@@ -75,18 +75,18 @@ async def send_message(chatbot: Bard, interaction, user_message: str, image=None
                 await interaction.followup.send(response, embeds=images_embed, wait=True)
                 await interaction.followup.send(embed=more_images_embed, wait=True)
             elif isinstance(interaction, discord.message.Message):
-                await interaction.channel.send(text, embeds=images_embed)
+                await interaction.channel.send(response, embeds=images_embed)
                 await interaction.channel.send(embed=more_images_embed)
         elif len(images_embed) > 0:
             if isinstance(interaction, discord.Interaction):
                 await interaction.followup.send(response, embeds=images_embed, wait=True)
             elif isinstance(interaction, discord.message.Message):
-                await interaction.channel.send(text, embeds=images_embed)
+                await interaction.channel.send(response, embeds=images_embed)
         else:
             if isinstance(interaction, discord.Interaction):
                 await interaction.followup.send(response, wait=True)
             elif isinstance(interaction, discord.message.Message):
-                await interaction.channel.send(text)
+                await interaction.channel.send(response)
     except Exception as e:
             if isinstance(interaction, discord.Interaction):
                 await interaction.followup.send(f">>> **ERROR: {e}**")
